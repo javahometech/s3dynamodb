@@ -28,8 +28,6 @@ public class LoadS3DataToDynamoDB implements RequestHandler<S3Event, String> {
 
 	@Override
 	public String handleRequest(S3Event event, Context context) {
-		String bucket = S3_BUCKET_NAME;
-		String key = S3_FILE_NAME;
 		try {
 			S3Object response = s3.getObject(new GetObjectRequest(S3_BUCKET_NAME, S3_FILE_NAME));
 			S3ObjectInputStream is = response.getObjectContent();
@@ -53,7 +51,7 @@ public class LoadS3DataToDynamoDB implements RequestHandler<S3Event, String> {
 		} catch (Exception e) {
 			e.printStackTrace();
 			context.getLogger().log(String.format("Error getting object %s from bucket %s. Make sure they exist and"
-					+ " your bucket is in the same region as this function.", key, bucket));
+					+ " your bucket is in the same region as this function.", S3_FILE_NAME, S3_BUCKET_NAME));
 			return "Error "+e.getMessage();
 		}
 	}
