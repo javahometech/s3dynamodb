@@ -31,7 +31,7 @@ public class LoadS3DataToDynamoDB implements RequestHandler<S3Event, String> {
 		String bucket = S3_BUCKET_NAME;
 		String key = S3_FILE_NAME;
 		try {
-			S3Object response = s3.getObject(new GetObjectRequest(bucket, key));
+			S3Object response = s3.getObject(new GetObjectRequest(S3_BUCKET_NAME, S3_FILE_NAME));
 			S3ObjectInputStream is = response.getObjectContent();
 			Table table = dynamoDb.getTable(DYNAMODB_TABLE_NAME);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
