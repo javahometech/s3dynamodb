@@ -21,15 +21,15 @@ public class LoadS3DataToDynamoDB implements RequestHandler<S3Event, String> {
 
 	private AmazonS3 s3 = AmazonS3ClientBuilder.standard().build();
 	private String DYNAMODB_TABLE_NAME = "Employee";
+	private String S3_BUCKET_NAME = "kammana";
+	private String S3_FILE_NAME = "demo.csv";
 	AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
 	private DynamoDB dynamoDb = new DynamoDB(client);
 
 	@Override
 	public String handleRequest(S3Event event, Context context) {
-		context.getLogger().log("Received event: " + event);
-		// Get the object from the event and show its content type
-		String bucket = event.getRecords().get(0).getS3().getBucket().getName();
-		String key = event.getRecords().get(0).getS3().getObject().getKey();
+		String bucket = S3_BUCKET_NAME;
+		String key = S3_FILE_NAME;
 		try {
 			S3Object response = s3.getObject(new GetObjectRequest(bucket, key));
 			S3ObjectInputStream is = response.getObjectContent();
